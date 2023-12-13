@@ -61,7 +61,7 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-      - vol_prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - vol_prometheus:/etc/prometheus
     networks:
       net_promeheus: null
     labels:
