@@ -59,8 +59,7 @@ services:
   node-exporter:
     image: prom/node-exporter
     networks:
-      net_promeheus: null
-      driver: bridge
+      - net_promeheus
     ports:
       - 9100:9100
     labels:
