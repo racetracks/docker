@@ -58,11 +58,11 @@ services:
       net_promeheus: null
   node-exporter:
     image: prom/node-exporter
-    ports:
-      - 9100:9100
     networks:
       net_promeheus: null
       driver: bridge
+    ports:
+      - 9100:9100
     labels:
       - com.centurylinklabs.watchtower.enable=true
   prometheus:
