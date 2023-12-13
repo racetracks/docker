@@ -1,5 +1,5 @@
 ---
-- name: Create directories and subdirectories
+- name: dirs
   hosts: localhost
   become: yes
 
