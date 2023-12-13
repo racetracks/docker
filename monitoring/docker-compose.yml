@@ -4,12 +4,19 @@ networks:
   net_homeassistant: null
   net_influxdb: null
   net_grafana: null
+  net_promeheus: null
 volumes:
   vol_nginx:
     driver: local
     driver_opts:
       type: none
       device: /opt/docker/nginx/run
+      o: bind
+  vol_prometheus:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/prometheus/run
       o: bind
   vol_grafana:
     driver: local
@@ -36,6 +43,29 @@ volumes:
       device: /opt/docker/influxdb/db
       o: bind
 services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_grafana: null
+      net_homeassistant: null
+      net_promeheus: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - vol_prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      net_promeheus: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
   homeassistant:
     container_name: homeassistant
     image: ghcr.io/home-assistant/home-assistant:stable
@@ -72,17 +102,4 @@ services:
       - vol_grafana:/var/lib/grafana
     labels:
       - com.centurylinklabs.watchtower.enable=true
-  app:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_grafana: null
-      net_homeassistant: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
+
