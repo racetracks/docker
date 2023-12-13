@@ -6,6 +6,18 @@ volumes:
       type: none
       device: /opt/docker/homeassistant/run
       o: bind
+  vol_influxdb_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/influxdb/config
+      o: bind
+  vol_influxdb_db:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/influxdb/db
+      o: bind
 services:
   homeassistant:
     container_name: homeassistant
@@ -19,3 +31,16 @@ services:
     network_mode: host
     labels:
       - com.centurylinklabs.watchtower.enable=true
+# InfluxDB - Database for sensor data
+influxdb:
+  image: influxdb:latest
+  container_name: influxdb
+  networks:
+    - default
+  security_opt:
+    - no-new-privileges:true
+  restart: unless-stopped
+    network_mode: host
+  volumes:
+    - vol_influxdb_vonfig:/etc/influxdb2
+    - vol_influxdb_db:/var/lib/influxdb2
