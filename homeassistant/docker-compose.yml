@@ -1,4 +1,5 @@
-version: '3'
+---
+version: "3"
 volumes:
   vol_homeassistant:
     driver: local
@@ -21,7 +22,7 @@ volumes:
 services:
   homeassistant:
     container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
+    image: ghcr.io/home-assistant/home-assistant:stable
     volumes:
       - vol_homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
@@ -31,7 +32,6 @@ services:
     network_mode: host
     labels:
       - com.centurylinklabs.watchtower.enable=true
-# InfluxDB - Database for sensor data
 influxdb:
   image: influxdb:latest
   container_name: influxdb
@@ -40,7 +40,7 @@ influxdb:
   security_opt:
     - no-new-privileges:true
   restart: unless-stopped
-    network_mode: host
+  network_mode: host
   volumes:
     - vol_influxdb_vonfig:/etc/influxdb2
     - vol_influxdb_db:/var/lib/influxdb2
