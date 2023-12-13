@@ -1,5 +1,9 @@
 ---
-version: "3"  
+version: "3"
+networks:
+  net_homeassistant: null
+  net_influxdb: null
+  net_grafana: null
 volumes:
   vol_nginx:
     driver: local
@@ -35,25 +39,23 @@ services:
   homeassistant:
     container_name: homeassistant
     image: ghcr.io/home-assistant/home-assistant:stable
+    network_mode: "host"
     volumes:
       - vol_homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     restart: unless-stopped
     privileged: true
-    network_mode: host
     labels:
       - com.centurylinklabs.watchtower.enable=true
   influxdb:
     image: influxdb:latest
     container_name: influxdb
-    networks:
-      - default
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    ports:
-      - 8086:8086
+    networks:
+      net_influxdb: null
     volumes:
       - vol_influxdb_config:/etc/influxdb2
       - vol_influxdb_db:/var/lib/influxdb2
@@ -63,8 +65,9 @@ services:
     image: grafana/grafana-enterprise
     container_name: grafana
     restart: unless-stopped
-    ports:
-     - '3000:3000'
+    networks:
+      net_grafana: null
+      net_influxdb: null
     volumes:
       - vol_grafana:/var/lib/grafana
     labels:
@@ -78,5 +81,8 @@ services:
       - 443:443
     volumes:
       - vol_nginx:/data
+    networks:
+      net_grafana: null
+      net_homeassistant: null
     labels:
       - com.centurylinklabs.watchtower.enable=true
