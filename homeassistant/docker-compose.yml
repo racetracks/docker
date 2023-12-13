@@ -32,15 +32,19 @@ services:
     network_mode: host
     labels:
       - com.centurylinklabs.watchtower.enable=true
-influxdb:
-  image: influxdb:latest
-  container_name: influxdb
-  networks:
-    - default
-  security_opt:
-    - no-new-privileges:true
-  restart: unless-stopped
-  network_mode: host
-  volumes:
-    - vol_influxdb_vonfig:/etc/influxdb2
-    - vol_influxdb_db:/var/lib/influxdb2
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    networks:
+      - default
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - 8086:8086
+    volumes:
+      - vol_influxdb_vonfig:/etc/influxdb2
+      - vol_influxdb_db:/var/lib/influxdb2
+
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
