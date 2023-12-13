@@ -1,6 +1,12 @@
 ---
 version: "3"
 volumes:
+  vol_grafana:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/grafana/run
+      o: bind
   vol_homeassistant:
     driver: local
     driver_opts:
