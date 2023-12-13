@@ -1,5 +1,5 @@
 ---
-version: "3"
+version: "3"  
 volumes:
   vol_nginx:
     driver: local
@@ -67,5 +67,16 @@ services:
      - '3000:3000'
     volumes:
       - vol_grafana:/var/lib/grafana
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
     labels:
       - com.centurylinklabs.watchtower.enable=true
