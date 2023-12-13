@@ -1,0 +1,21 @@
+---
+- name: Create directories and subdirectories
+  hosts: localhost
+  become: yes
+
+  vars:
+    base_directories:
+      - grafana
+
+    subdirectories:
+      - build
+      - run
+      - temp
+
+  tasks:
+    - name: Create directories and subdirectories
+      file:
+        path: "/opt/docker/{{ item.0 }}/{{ item.1 }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ base_directories | product(subdirectories) | list }}"
