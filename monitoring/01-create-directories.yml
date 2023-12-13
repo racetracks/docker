@@ -8,6 +8,7 @@
       - grafana
       - homeassistant
       - influxdb
+      - prometheus
       - nginx
 
     subdirectories:
