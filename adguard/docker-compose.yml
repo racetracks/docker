@@ -1,0 +1,34 @@
+---
+version: "3"
+volumes:
+  vol_adguard_conf:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/adguard/run/conf
+      o: bind
+  vol_adguard_work:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/adguard/run/work
+      o: bind
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - vol_adguard_conf:/conf
+      - vol_adguard_work:/work
+    network_mode: host
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adguardhome.entrypoints=insecure"
+      - "traefik.http.routers.adguardhome.rule=Host(`adguard.$DOMAIN`)"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
+      # - "traefik.http.routers.adguardhome.tls.certresolver=le"
+      - com.centurylinklabs.watchtower.enable=true
