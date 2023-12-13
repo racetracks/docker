@@ -1,0 +1,29 @@
+---
+version: "3"
+volumes:
+  vol_portainer:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/portainer/run
+      o: bind
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - vol_portainer:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    ports:
+      - 9443:9443
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
