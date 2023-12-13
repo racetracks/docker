@@ -45,6 +45,15 @@ services:
     volumes:
       - vol_influxdb_vonfig:/etc/influxdb2
       - vol_influxdb_db:/var/lib/influxdb2
-
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+     - '3000:3000'
+    volumes:
+      - vol_grafana:/var/lib/grafana
     labels:
       - com.centurylinklabs.watchtower.enable=true
