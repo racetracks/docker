@@ -1,0 +1,21 @@
+version: '3'
+volumes:
+  vol_homeassistant:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/homeassistant/run
+      o: bind
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - vol_homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
