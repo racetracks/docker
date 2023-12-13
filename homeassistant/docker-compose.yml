@@ -1,6 +1,12 @@
 ---
 version: "3"
 volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
   vol_grafana:
     driver: local
     driver_opts:
@@ -49,7 +55,7 @@ services:
     ports:
       - 8086:8086
     volumes:
-      - vol_influxdb_vonfig:/etc/influxdb2
+      - vol_influxdb_config:/etc/influxdb2
       - vol_influxdb_db:/var/lib/influxdb2
     labels:
       - com.centurylinklabs.watchtower.enable=true
