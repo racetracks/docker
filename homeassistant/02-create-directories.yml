@@ -1,7 +1,7 @@
 ---
 - name: make extra foldars
   hosts: your_debian_servers
-  become: yes  # Run tasks with sudo
+  become: yes
 
   vars:
     target_folders:
