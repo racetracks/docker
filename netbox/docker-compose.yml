@@ -2,19 +2,43 @@ version: '3.4'
 volumes:
   netbox-media-files:
     driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/netbox/netbox-media-files
+      o: bind
   netbox-postgres-data:
     driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/netbox/netbox-postgres-data
+      o: bind
   netbox-redis-cache-data:
     driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/netbox/netbox-redis-cache-data
+      o: bind
   netbox-redis-data:
     driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/netbox/netbox-redis-cache-data
+      o: bind
   netbox-reports-files:
     driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/netbox/netbox-reports-files
+      o: bind
   netbox-scripts-files:
     driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/netbox/netbox-scripts-files
+      o: bind
 services:
   netbox: &netbox
-    image: docker.io/netboxcommunity/netbox:${VERSION-v3.6-2.7.0}
+    image: docker.io/netboxcommunity/netbox:latest
     depends_on:
     - postgres
     - redis
