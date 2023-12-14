@@ -1,0 +1,20 @@
+
+---
+version: "3"
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+services:
+  nginx-reverse-proxy:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
