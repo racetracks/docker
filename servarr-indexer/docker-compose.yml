@@ -30,4 +30,20 @@ volumes:
       type: none
       device: /opt/docker/prowlarr/run
       o: bind
-
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_jackett: null
+      net_prowlarr: null
+      net_flaresolverr: null
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
