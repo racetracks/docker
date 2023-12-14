@@ -1,0 +1,20 @@
+---
+- name: make extra foldars
+  hosts: your_debian_servers
+  become: yes
+
+  vars:
+    target_folders:
+      - /opt/docker/netbox/netbox-media-files
+      - /opt/docker/netbox/netbox-postgres-data
+      - /opt/docker/netbox/netbox-redis-cache-data
+      - /opt/docker/netbox/netbox-redis-data
+      - /opt/docker/netbox/netbox-reports-files
+      - /opt/docker/netbox/netbox-scripts-files
+  tasks:
+    - name: Create folders
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items: "{{ target_folders }}"
