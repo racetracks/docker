@@ -12,3 +12,22 @@ volumes:
       type: none
       device: /opt/docker/nginx/run
       o: bind
+  vol_flaresolverr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/flaresolverr/run
+      o: bind
+  vol_jackett:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/jackett/run
+      o: bind
+  vol_prowlarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/prowlarr/run
+      o: bind
+
