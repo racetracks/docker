@@ -4,3 +4,5 @@ services:
     image: prom/node-exporter
     ports:
       - 9100:9100
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
