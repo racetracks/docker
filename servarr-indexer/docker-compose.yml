@@ -47,3 +47,60 @@ services:
     restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      net_flaresolverr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - AUTO_UPDATE=true
+      - RUN_OPTS=run options here
+    volumes:
+      - vol_jackett:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      net_jackett: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_prowlarr:/config
+    networks:
+      net_prowlarr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
