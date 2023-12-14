@@ -5,6 +5,7 @@
 
   vars:
     target_folders:
+      - /opt/docker/netbox/netbox-configuration
       - /opt/docker/netbox/netbox-media-files
       - /opt/docker/netbox/netbox-postgres-data
       - /opt/docker/netbox/netbox-redis-cache-data
