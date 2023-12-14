@@ -101,8 +101,9 @@ services:
     image: grafana/grafana-enterprise
     container_name: grafana
     restart: unless-stopped
-    ports:
-     - 3000:3000
+    networks:
+      net_grafana: null
+      net_influxdb: null
     volumes:
       - vol_grafana:/var/lib/grafana
     labels:
