@@ -1,4 +1,3 @@
-
 ---
 version: "3"
 networks:
@@ -44,7 +43,6 @@ services:
       net_jackett: null
       net_prowlarr: null
       net_flaresolverr: null
-    restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
   flaresolverr:
