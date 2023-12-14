@@ -1,1 +1,14 @@
 
+---
+version: "3"
+networks:
+  net_jackett: null
+  net_prowlarr: null
+  net_flaresolverr: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
