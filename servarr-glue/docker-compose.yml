@@ -1,1 +1,136 @@
-
+---
+version: "3"
+networks:
+  net_ombi: null
+  net_requestrr: null
+  net_overseer: null
+  net_notifiarr: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+  vol_ombi:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/ombi/run
+      o: bind
+  vol_requestrr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/requestrr/run
+      o: bind
+  vol_overseerr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/overseerr/
+      o: bind
+  vol_notifiarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/notifiarr/run
+      o: bind
+  vol_notifiarr_tmp:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/notifiarr/temp
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_ombi: null
+      net_requestrr: null
+      net_overseer: null
+      net_notifiarr: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  ombi:
+    image: lscr.io/linuxserver/ombi:latest
+    container_name: ombi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_ombi:/config
+    networks:
+      net_ombi: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  requestrr:
+    image: lscr.io/linuxserver/requestrr:latest
+    container_name: requestrr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_requestrr:/config
+    networks:
+      net_requestrr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_overseerr:/config
+    networks:
+      net_overseer: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  notifiarr:
+    container_name: notifiarr
+    hostname: notifiarr
+    image: golift/notifiarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    restart: always
+    networks:
+      net_notifiarr: null
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/machine-id:/etc/machine-id
+      - vol_notifiarr:/config
+      - vol_notifiarr_tmp:/var/run/utmp
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
