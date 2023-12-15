@@ -1,6 +1,6 @@
 ---
 - name: make extra foldars
-  hosts: your_debian_servers
+  hosts: localhost
   become: yes
 
   vars:
