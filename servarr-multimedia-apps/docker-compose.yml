@@ -3,6 +3,7 @@ version: "3"
 networks:
   net_sonarr: null
   net_radarr: null
+  net_lidarr: null
 volumes:
   vol_downloads:
     driver: local
@@ -33,6 +34,12 @@ volumes:
     driver_opts:
       type: none
       device: /opt/docker/nginx/run
+      o: bind
+  vol_lidarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/lidarr/run
       o: bind
 services:
   app:
@@ -86,6 +93,26 @@ services:
       - vol_downloads:/downloads
     networks:
       net_radarr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  lidarr:
+    image: linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_lidarr:/config
+      - vol_media:/media
+      - vol_downloads:/downloads
+    networks:
+      net_lidarr: null
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
