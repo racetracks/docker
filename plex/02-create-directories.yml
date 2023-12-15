@@ -5,13 +5,8 @@
 
   vars:
     target_folders:
-      - /opt/docker/netbox/netbox-configuration
-      - /opt/docker/netbox/netbox-media-files
-      - /opt/docker/netbox/netbox-postgres-data
-      - /opt/docker/netbox/netbox-redis-cache-data
-      - /opt/docker/netbox/netbox-redis-data
-      - /opt/docker/netbox/netbox-reports-files
-      - /opt/docker/netbox/netbox-scripts-files
+      - /opt/docker/run/plex_scratch
+      - /opt/docker/plex/run/config
   tasks:
     - name: Create folders
       file:
