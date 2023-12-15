@@ -9,6 +9,7 @@
       - radarr
       - lidarr
       - sonarr
+      - bazarr
 
     subdirectories:
       - build
