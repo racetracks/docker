@@ -1,3 +1,4 @@
+---
 version: "3"
 networks:
   net_sabnzbd: null
@@ -6,7 +7,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /mnt/downloads
+      device: /mnt/download
       o: bind
   vol_media:
     driver: local
@@ -18,16 +19,16 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /opt/docker/nginx/run
+      device: /opt/docker/run/nginx
       o: bind
   vol_sabnzbd:
     driver: local
     driver_opts:
       type: none
-      device: /opt/docker/sabnzbd/run
+      device: /opt/docker/sabnzbd/run/
       o: bind
 services:
-  app:
+  nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
     restart: unless-stopped
     ports:
@@ -43,6 +44,7 @@ services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
+    restart: always    
     environment:
       - PUID=1000
       - PGID=1000
