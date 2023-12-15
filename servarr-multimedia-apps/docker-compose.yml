@@ -54,6 +54,7 @@ services:
     networks:
       net_sonarr: null
       net_radarr: null
+      net_lidarr: null
     labels:
       - com.centurylinklabs.watchtower.enable=true
   sonarr:
