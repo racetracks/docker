@@ -28,7 +28,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /opt/docker/overseerr/
+      device: /opt/docker/overseerr/run
       o: bind
   vol_notifiarr:
     driver: local
