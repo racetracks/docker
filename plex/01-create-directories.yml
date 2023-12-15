@@ -6,7 +6,7 @@
 
   vars:
     base_directories:
-      - netbox
+      - plex
 
     subdirectories:
       - build
