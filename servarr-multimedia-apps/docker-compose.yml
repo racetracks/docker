@@ -4,6 +4,7 @@ networks:
   net_sonarr: null
   net_radarr: null
   net_lidarr: null
+  net_bazarr: null
 volumes:
   vol_downloads:
     driver: local
@@ -41,6 +42,12 @@ volumes:
       type: none
       device: /opt/docker/lidarr/run
       o: bind
+  vol_bazarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/bazarr/run
+      o: bind
 services:
   app:
     image: jc21/nginx-proxy-manager:latest
@@ -55,6 +62,7 @@ services:
       net_sonarr: null
       net_radarr: null
       net_lidarr: null
+      net_bazarr: null
     labels:
       - com.centurylinklabs.watchtower.enable=true
   sonarr:
@@ -114,6 +122,25 @@ services:
       - vol_downloads:/downloads
     networks:
       net_lidarr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_bazarr:/config
+      - vol_media:/media
+    networks:
+      net_bazarr: null
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
