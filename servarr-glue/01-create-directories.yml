@@ -10,6 +10,7 @@
       - requestrr
       - overseerr
       - notifiarr
+      - homarr
       # Add any additional directories here
 
     subdirectories:
