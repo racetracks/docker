@@ -70,6 +70,7 @@ services:
       - vol_prometheus:/etc/prometheus
     networks:
       net_promeheus: null
+    restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
   homeassistant:
