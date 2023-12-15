@@ -6,7 +6,10 @@
   vars:
     base_directories:
       - nginx
-      - sabnzbd
+      - ombi
+      - requestrr
+      - overseerr
+      - notifiarr
       # Add any additional directories here
 
     subdirectories:
