@@ -1,1 +1,38 @@
-
+version: "2.1"
+volumes:
+  vol_plex_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/plex/run/config
+      o: bind
+  vol_plex_scratch:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/plex/run/scratch
+      o: bind
+  vol_media_alt:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/media_alt
+      o: bind
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022 #optional
+      - VERSION=docker
+    volumes:
+      - vol_plex_data:/config
+      - vol_media:/media
+      - vol_plex_scratch:/scratch
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
