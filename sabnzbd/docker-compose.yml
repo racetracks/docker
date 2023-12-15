@@ -19,7 +19,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /opt/docker/run/nginx
+      device: /opt/docker/nginx/run
       o: bind
   vol_sabnzbd:
     driver: local
