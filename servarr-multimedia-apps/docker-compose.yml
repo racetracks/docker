@@ -1,1 +1,91 @@
-
+---
+version: "3"
+networks:
+  net_sonarr: null
+  net_radarr: null
+volumes:
+  vol_downloads:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/download
+      o: bind
+  vol_media:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/media
+      o: bind
+  vol_sonarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/sonarr/run
+      o: bind
+  vol_radarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/radarr/run
+      o: bind
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_sonarr: null
+      net_radarr: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_sonarr:/config
+      - vol_media:/media
+      - vol_downloads:/downloads
+    networks:
+      net_sonarr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_radarr:/config
+      - vol_media:/media
+      - vol_downloads:/downloads
+    networks:
+      net_radarr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
