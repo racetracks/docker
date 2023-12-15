@@ -12,11 +12,11 @@ volumes:
       type: none
       device: /opt/docker/plex/run/scratch
       o: bind
-  vol_media_alt:
+  vol_media:
     driver: local
     driver_opts:
       type: none
-      device: /mnt/media_alt
+      device: /mnt/media
       o: bind
 services:
   plex:
