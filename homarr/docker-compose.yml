@@ -1,1 +1,65 @@
-h
+---
+version: "3"
+networks:
+  net_homarr: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+  vol_homarr_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/homarr/run/data
+      o: bind
+  vol_homarr_icons:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/homarr/run/icons
+      o: bind
+  vol_homarr_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/homarr/run/config
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_ombi: null
+      net_requestrr: null
+      net_overseer: null
+      net_notifiarr: null
+      net_homarr: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - vol_homarr_config:/app/data/configs
+      - vol_homarr_icons:/app/public/icons
+      - vol_homarr_data:/data
+    networks:
+      net_notifiarr: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
