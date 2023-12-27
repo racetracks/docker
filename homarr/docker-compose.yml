@@ -56,6 +56,6 @@ services:
       - vol_homarr_icons:/app/public/icons
       - vol_homarr_data:/data
     networks:
-      net_notifiarr: null
+      net_homarr: null
     labels:
       - com.centurylinklabs.watchtower.enable=true
