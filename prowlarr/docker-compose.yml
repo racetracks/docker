@@ -1,1 +1,49 @@
-
+---
+version: "3"
+networks:
+  net_prowlarr: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+  vol_prowlarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/prowlarr/run
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_prowlarr: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_prowlarr:/config
+    networks:
+      net_prowlarr: null
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
