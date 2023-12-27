@@ -26,11 +26,7 @@ services:
     volumes:
       - vol_nginx:/data
     networks:
-      net_ombi: null
-      net_requestrr: null
       net_overseer: null
-      net_notifiarr: null
-      net_homarr: null
     labels:
       - com.centurylinklabs.watchtower.enable=true
   overseerr:
