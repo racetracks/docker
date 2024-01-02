@@ -1,1 +1,43 @@
-
+---
+version: "3"
+networks:
+  net_homeassistant: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+  vol_homeassistant:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/homeassistant/run
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_homeassistant: null
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    network_mode: host
+    volumes:
+      - vol_homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
