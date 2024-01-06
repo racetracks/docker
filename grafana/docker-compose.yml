@@ -1,1 +1,39 @@
-
+---
+version: "3"
+networks:
+  net_grafana: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+  vol_grafana:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/grafana/run
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_grafana: null
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    networks:
+      net_grafana: null
+    volumes:
+      - vol_grafana:/var/lib/grafana
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
