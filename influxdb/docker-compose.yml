@@ -1,1 +1,48 @@
-
+---
+version: "3"
+networks:
+  net_influxdb: null
+volumes:
+  vol_nginx:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/nginx/run
+      o: bind
+  vol_influxdb_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/influxdb/config
+      o: bind
+  vol_influxdb_db:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/influxdb/db
+      o: bind
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - vol_nginx:/data
+    networks:
+      net_influxdb: null
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      net_influxdb: null
+    volumes:
+      - vol_influxdb_config:/etc/influxdb2
+      - vol_influxdb_db:/var/lib/influxdb2
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
