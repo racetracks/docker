@@ -1,0 +1,17 @@
+---
+- name: make extra foldars
+  hosts: localhost
+  become: yes
+
+  vars:
+    target_folders:
+      - /opt/docker/influxdb/config
+      - /opt/docker/influxdb/db
+
+  tasks:
+    - name: Create folders
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items: "{{ target_folders }}"
