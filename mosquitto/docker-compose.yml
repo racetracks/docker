@@ -3,9 +3,28 @@ networks:
     net_mosquitto:
         name: net_mosquitto
         driver: bridge
+volumes:
+  vol_mosquitto_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/mosquitto/run/config
+      o: bind
+  vol_mosquitto_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/mosquitto/run/data
+      o: bind
+  vol_mosquitto_log:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/mosquitto/run/log
+      o: bind
 services:
     mosquitto:
-        image: eclipse-mosquitto:2
+        image: eclipse-mosquitto:latest
         ports:
             - 1883:1883
             - 8883:8883
