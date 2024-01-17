@@ -5,9 +5,9 @@
 
   vars:
     target_folders:
-      - /opt/docker/mosquitto/
-      - /opt/docker/mosquitto/
-      - /opt/docker/mosquitto/
+      - /opt/docker/mosquitto/config
+      - /opt/docker/mosquitto/data
+      - /opt/docker/mosquitto/log
   tasks:
     - name: Create folders
       file:
