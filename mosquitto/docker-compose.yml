@@ -1,7 +1,7 @@
 version: '3.8'
 networks:
     net_mosquitto:
-        name: mosquitto
+        name: net_mosquitto
         driver: bridge
 services:
     mosquitto:
@@ -15,4 +15,4 @@ services:
             - ./mosquitto/data:/mosquitto/data
             - ./mosquitto/log:/mosquitto/log
         networks:
-            - mosquitto
+            - net_mosquitto
