@@ -30,8 +30,10 @@ services:
             - 8883:8883
             - 9001:9001
         volumes:
-            - ./mosquitto/config:/mosquitto/config
-            - ./mosquitto/data:/mosquitto/data
-            - ./mosquitto/log:/mosquitto/log
+            - vol_mosquitto_config:/mosquitto/config
+            - vol_mosquitto_data:/mosquitto/data
+            - vol_mosquitto_log:/mosquitto/log
         networks:
             - net_mosquitto
+        labels:
+         - com.centurylinklabs.watchtower.enable=true
