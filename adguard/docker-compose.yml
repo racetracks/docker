@@ -21,14 +21,14 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - vol_adguard_conf:/conf
-      - vol_adguard_work:/work
+      - vol_adguard_conf:/opt/adguardhome/conf
+      - vol_adguard_work:/opt/adguardhome/work
     network_mode: host
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.adguardhome.entrypoints=insecure"
-      - "traefik.http.routers.adguardhome.rule=Host(`adguard.$DOMAIN`)"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.adguardhome.entrypoints=insecure"
+      # "traefik.http.routers.adguardhome.rule=Host(`adguard.$DOMAIN`)"
+      # "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
       # - "traefik.http.routers.adguardhome.tls.certresolver=le"
       - com.centurylinklabs.watchtower.enable=true
