@@ -23,7 +23,8 @@ services:
       - phpipam-ca:/usr/local/share/ca-certificates:ro
     depends_on:
       - phpipam-mariadb
-
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
   phpipam-cron:
     image: phpipam/phpipam-cron:latest
     environment:
@@ -36,7 +37,8 @@ services:
       - phpipam-ca:/usr/local/share/ca-certificates:ro
     depends_on:
       - phpipam-mariadb
-
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
   phpipam-mariadb:
     image: mariadb:latest
     environment:
@@ -44,3 +46,5 @@ services:
     restart: unless-stopped
     volumes:
       - phpipam-db-data:/var/lib/mysql
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
