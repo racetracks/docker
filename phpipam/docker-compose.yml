@@ -4,9 +4,23 @@
 version: '3'
 volumes:
   phpipam-db-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/phpipam/run/phpipam-db-data
+      o: bind
   phpipam-logo:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/phpipam/run/phpipam-logo
+      o: bind
   phpipam-ca:
-
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/phpipam/run/phpipam-ca
+      o: bind
 services:
   phpipam-web:
     image: phpipam/phpipam-www:latest
