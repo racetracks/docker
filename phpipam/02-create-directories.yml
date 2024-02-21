@@ -1,0 +1,17 @@
+---
+- name: make extra foldars
+  hosts: localhost
+  become: yes
+
+  vars:
+    target_folders:
+      - /opt/docker/phpipam/run/phpipam-db-data
+      - /opt/docker/phpipam/run/phpipam-logo
+      - /opt/docker/phpipam/run/phpipam-ca
+  tasks:
+    - name: Create folders
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items: "{{ target_folders }}"
