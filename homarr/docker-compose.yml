@@ -27,11 +27,13 @@ services:
       - PGID=1000
       - TZ=Australia/Adelaide
       - UMASK_SET=022
-    restart: unless-stopped
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
       - vol_homarr_config:/app/data/configs
       - vol_homarr_icons:/app/public/icons
       - vol_homarr_data:/data
+    ports:
+      - 7575:7575
     labels:
       - com.centurylinklabs.watchtower.enable=true
