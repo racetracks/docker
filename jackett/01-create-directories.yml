@@ -5,7 +5,6 @@
 
   vars:
     base_directories:
-      - nginx
       - jackett
       # Add any additional directories here
 

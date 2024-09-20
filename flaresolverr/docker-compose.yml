@@ -1,15 +1,6 @@
 
 ---
-version: "3"
-networks:
-  net_flaresolverr: null
 volumes:
-  vol_nginx:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/docker/nginx/run
-      o: bind
   vol_flaresolverr:
     driver: local
     driver_opts:
@@ -17,19 +8,6 @@ volumes:
       device: /opt/docker/flaresolverr/run
       o: bind
 services:
-  app:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_flaresolverr: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
@@ -45,8 +23,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
-    networks:
-      net_flaresolverr: null
+    ports:
+      - 8191:8191
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true

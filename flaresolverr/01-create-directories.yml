@@ -5,7 +5,6 @@
 
   vars:
     base_directories:
-      - nginx
       - flaresolverr
       # Add any additional directories here
 
