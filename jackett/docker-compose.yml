@@ -22,8 +22,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
-    networks:
-      net_jackett: null
+    ports:
+      - 9117:9117
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
