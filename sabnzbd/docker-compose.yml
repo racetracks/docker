@@ -1,7 +1,4 @@
 ---
-version: "3"
-networks:
-  net_sabnzbd: null
 volumes:
   vol_downloads:
     driver: local
@@ -15,12 +12,6 @@ volumes:
       type: none
       device: /mnt/media
       o: bind
-  vol_nginx:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/docker/nginx/run
-      o: bind
   vol_sabnzbd:
     driver: local
     driver_opts:
@@ -28,19 +19,6 @@ volumes:
       device: /opt/docker/sabnzbd/run/
       o: bind
 services:
-  nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_sabnzbd: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
@@ -53,7 +31,7 @@ services:
     volumes:
       - vol_sabnzbd:/config
       - vol_downloads:/downloads
-    networks:
-      net_sabnzbd: null
+    ports:
+      - 8080:8080
     labels:
       - com.centurylinklabs.watchtower.enable=true

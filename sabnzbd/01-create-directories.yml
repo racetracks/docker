@@ -5,7 +5,6 @@
 
   vars:
     base_directories:
-      - nginx
       - sabnzbd
       # Add any additional directories here
 
