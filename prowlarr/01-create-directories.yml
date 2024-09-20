@@ -5,7 +5,6 @@
 
   vars:
     base_directories:
-      - nginx
       - prowlarr
       # Add any additional directories here
 

@@ -1,14 +1,5 @@
 ---
-version: "3"
-networks:
-  net_homarr: null
 volumes:
-  vol_nginx:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/docker/nginx/run
-      o: bind
   vol_homarr_data:
     driver: local
     driver_opts:
@@ -28,19 +19,6 @@ volumes:
       device: /opt/docker/homarr/run/config
       o: bind
 services:
-  app:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_homarr: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
   homarr:
     container_name: homarr
     image: ghcr.io/ajnart/homarr:latest
@@ -55,7 +33,5 @@ services:
       - vol_homarr_config:/app/data/configs
       - vol_homarr_icons:/app/public/icons
       - vol_homarr_data:/data
-    networks:
-      net_homarr: null
     labels:
       - com.centurylinklabs.watchtower.enable=true

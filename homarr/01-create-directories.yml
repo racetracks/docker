@@ -5,7 +5,6 @@
 
   vars:
     base_directories:
-      - nginx
       - homarr
       # Add any additional directories here
 
