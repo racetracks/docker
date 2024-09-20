@@ -5,7 +5,6 @@
 
   vars:
     base_directories:
-      - nginx
       - notifiarr
       # Add any additional directories here
 

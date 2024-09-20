@@ -5,10 +5,7 @@
 
   vars:
     base_directories:
-      - nginx
       - overseerr
-
-
     subdirectories:
       - build
       - run

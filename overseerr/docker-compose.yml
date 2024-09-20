@@ -1,14 +1,5 @@
 ---
-version: "3"
-networks:
-  net_overseer: null
 volumes:
-  vol_nginx:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/docker/nginx/run
-      o: bind
   vol_overseerr:
     driver: local
     driver_opts:
@@ -16,19 +7,6 @@ volumes:
       device: /opt/docker/overseerr/run
       o: bind
 services:
-  app:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_overseer: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
@@ -42,8 +20,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
       - vol_overseerr:/config
-    networks:
-      net_overseer: null
+    ports:
+      - 5055:5055
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true

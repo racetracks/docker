@@ -1,14 +1,5 @@
 ---
-version: "3"
-networks:
-  net_notifiarr: null
 volumes:
-  vol_nginx:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/docker/nginx/run
-      o: bind
   vol_notifiarr:
     driver: local
     driver_opts:
@@ -22,19 +13,6 @@ volumes:
       device: /opt/docker/notifiarr/temp
       o: bind
 services:
-  app:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_notifiarr: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
   notifiarr:
     container_name: notifiarr
     hostname: notifiarr
@@ -45,8 +23,8 @@ services:
       - TZ=Australia/Adelaide
       - UMASK_SET=022
     restart: always
-    networks:
-      net_notifiarr: null
+    ports:
+      - 5454:5454
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

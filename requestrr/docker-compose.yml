@@ -1,14 +1,5 @@
 ---
-version: "3"
-networks:
-  net_requestrr: null
 volumes:
-  vol_nginx:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/docker/nginx/run
-      o: bind
   vol_requestrr:
     driver: local
     driver_opts:
@@ -16,19 +7,6 @@ volumes:
       device: /opt/docker/requestrr/run
       o: bind
 services:
-  app:
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
-    volumes:
-      - vol_nginx:/data
-    networks:
-      net_requestrr: null
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
   requestrr:
     image: lscr.io/linuxserver/requestrr:latest
     container_name: requestrr
@@ -42,8 +20,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
       - vol_requestrr:/config
-    networks:
-      net_requestrr: null
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
