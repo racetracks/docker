@@ -7,7 +7,7 @@
   vars:
     base_directories:
       - sonarr
-      # Add any additional directories here
+      - sonarr_hevc
 
     subdirectories:
       - build
