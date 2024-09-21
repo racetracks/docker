@@ -47,7 +47,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
   sonarr_hevc:
     image: linuxserver/sonarr
-    container_name: sonarr
+    container_name: sonarr_hevc
     environment:
       - PUID=1000
       - PGID=1000
