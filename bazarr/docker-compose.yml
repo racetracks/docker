@@ -1,0 +1,40 @@
+---
+volumes:
+  vol_downloads:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/download
+      o: bind
+  vol_media:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/media
+      o: bind
+  vol_bazarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/bazarr/run
+      o: bind
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_bazarr:/config
+      - vol_media:/media
+    ports:
+      - 6767:6767
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
