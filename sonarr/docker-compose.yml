@@ -57,7 +57,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
-      - vol_sonarr:/config
+      - vol_sonarr_hevc:/config
       - vol_media:/media
       - vol_downloads:/downloads
     ports:
