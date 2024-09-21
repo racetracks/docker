@@ -8,7 +8,7 @@ volumes:
       o: bind
 services:
   requestrr:
-    image: lscr.io/linuxserver/requestrr:latest
+    image: thomst08/requestrr:latest
     container_name: requestrr
     environment:
       - PUID=1000
