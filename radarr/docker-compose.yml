@@ -61,7 +61,7 @@ services:
       - vol_media:/media
       - vol_downloads:/downloads
     ports:
-      - 7878:7878
+      - 7879:7878
     restart: always
     labels:
       - com.centurylinklabs.watchtower.enable=true
