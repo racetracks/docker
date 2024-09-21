@@ -7,6 +7,7 @@
   vars:
     base_directories:
       - radarr
+      - radarr_hevc
       # Add any additional directories here
 
     subdirectories:

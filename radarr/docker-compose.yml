@@ -18,6 +18,12 @@ volumes:
       type: none
       device: /opt/docker/radarr/run
       o: bind
+  vol_radarr_hevc:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/radarr_hevc/run
+      o: bind
 services:
   radarr:
     image: linuxserver/radarr
@@ -32,6 +38,26 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
       - vol_radarr:/config
+      - vol_media:/media
+      - vol_downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: always
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  radarr_hevc:
+    image: linuxserver/radarr
+    container_name: radarr_hevc
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Adelaide
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - vol_radarr_hevc:/config
       - vol_media:/media
       - vol_downloads:/downloads
     ports:
