@@ -1,0 +1,40 @@
+
+---
+volumes:
+  vol_vault_root_config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/vault_root/run
+      o: bind
+  vol_vault_root_file:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/vault_root_file/run
+      o: bind
+  vol_vault_root_logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/docker/vault_root_logs/run
+      o: bind
+services:
+  vault_root:
+    image: hashicorp/vault:latest
+    container_name: vault_root
+    environment:
+        VAULT_ADDR: http://127.0.0.1:8200
+        VAULT_API_ADDR: http://127.0.0.1:8200
+        VAULT_LOCAL_CONFIG: '{"disable_mlock": true}'
+    ports:
+        - "8200:8200"
+    volumes:
+        - vol_vault_root_file:/vault/file:rw
+        - vol_vault_root_config:/vault/config:rw
+        - vol_vault_root_logs:/vault/logs:rw
+    cap_add:
+        - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.json
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
